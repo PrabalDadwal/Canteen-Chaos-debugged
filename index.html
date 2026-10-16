@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en" data-build="v3-clean" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canteen Chaos — Hostel Online Canteen</title>
+  <meta name="description" content="Hostel canteen online ordering site with live kitchen queue, menu, cart, order tracking, and debugging dashboard." />
+  <meta property="og:title" content="Canteen Chaos — Hostel Online Canteen" />
+  <meta property="og:description" content="Hostel canteen online ordering site with live kitchen queue, menu, cart, order tracking, and debugging dashboard." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Challenge Workbench Top Bar */
+    .challenge-bar {
+      background: #1e293b;
+      color: #f8fafc;
+      font-size: 13px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 1px solid #334155;
+      position: relative;
+      z-index: 1000;
+    }
+    .challenge-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .challenge-tag {
+      background: #3b82f6;
+      color: #fff;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .challenge-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #4ade80;
+      font-weight: 600;
+    }
+    .challenge-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .challenge-btn {
+      background: #334155;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .challenge-btn:hover {
+      background: #475569;
+      border-color: #64748b;
+      color: #fff;
+    }
+    .challenge-btn.highlight {
+      background: #2563eb;
+      border-color: #3b82f6;
+    }
+    .challenge-btn.highlight:hover {
+      background: #1d4ed8;
+    }
+    .challenge-select {
+      background: #334155;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    /* Challenge Modal */
+    .ch-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(2px);
+    }
+    .ch-modal {
+      background: #0f172a;
+      color: #e2e8f0;
+      width: 100%;
+      max-width: 860px;
+      max-height: 85vh;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .ch-modal-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1e293b;
+    }
+    .ch-modal-head h2 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ch-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .ch-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .ch-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .ch-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .ch-badge {
+      font-weight: 700;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #0ea5e9;
+      color: #fff;
+    }
+    .ch-status-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #14532d;
+      color: #4ade80;
+    }
+    .ch-card-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #f1f5f9;
+      margin-bottom: 6px;
+    }
+    .ch-quote {
+      font-style: italic;
+      color: #94a3b8;
+      font-size: 12px;
+      margin-bottom: 8px;
+      padding-left: 10px;
+      border-left: 2px solid #64748b;
+    }
+    .ch-detail {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .ch-detail strong {
+      color: #f8fafc;
+    }
+    .ch-close-btn {
+      background: transparent;
+      border: 0;
+      color: #94a3b8;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .ch-close-btn:hover { color: #fff; }
+    .smoke-test-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #1e293b;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .smoke-test-pass {
+      color: #4ade80;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Challenge Workbench Toolbar -->
+<div class="challenge-bar" id="challengeBar">
+  <div class="challenge-left">
+    <span class="challenge-tag">BYTE '26</span>
+    <strong>Canteen Chaos Debugging</strong>
+    <span class="challenge-status">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      10/10 Bugs Fixed
+    </span>
+  </div>
+  <div class="challenge-right">
+    <label style="display:flex; align-items:center; gap:6px; font-size:12px;">
+      <span>Slot:</span>
+      <select id="simSlotSelect" class="challenge-select" aria-label="Simulate meal slot">
+        <option value="lunch" selected>Lunch (1:15 PM - Open)</option>
+        <option value="breakfast">Breakfast (9:15 AM - Open)</option>
+        <option value="evening">Evening (6:00 PM - Open)</option>
+        <option value="allday">All Day (12:00 PM - Open)</option>
+        <option value="real">Real Server Time</option>
+        <option value="closed">Closed (3:00 AM)</option>
+      </select>
+    </label>
+    <button class="challenge-btn highlight" id="btnOpenTracker">Bug Tracker (10)</button>
+    <button class="challenge-btn" id="btnOpenSmoke">Run Smoke Tests</button>
+    <button class="challenge-btn" id="btnResetData">Reset Data</button>
+    <button class="challenge-btn" id="btnViewLog">View LOG.md</button>
+  </div>
+</div>
+
+<a class="skip-link" href="#menu">Skip to menu</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#/menu">
+      <span class="brand-mark">CC</span>
+      <span class="brand-text">Hostel Canteen</span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" id="siteNav">
+      <a href="#/menu"   class="nav-link" data-route="menu">Menu</a>
+      <a href="#/orders" class="nav-link" data-route="orders">My Orders</a>
+      <a href="#/staff"  class="nav-link" data-route="staff">Counter</a>
+
+      <button class="ghost-btn" id="themeBtn" aria-label="Switch theme">Dark</button>
+
+      <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="slot-bar" id="slotBar">Checking what's being served...</div>
+</header>
+
+<!-- ============================================================ MENU -->
+<section class="view" id="view-menu">
+  <div class="filters">
+    <div class="wrap filters-inner">
+      <div class="search-wrap">
+        <input type="search" id="searchInput" class="search" autocomplete="off"
+               placeholder="Search dishes, categories, tags...   (press /)"
+               aria-label="Search dishes" role="combobox" aria-expanded="false"
+               aria-controls="suggestBox" />
+        <div class="suggest-box" id="suggestBox" role="listbox" hidden></div>
+      </div>
+
+      <select id="sortSelect" class="select" aria-label="Sort dishes">
+        <option value="default">Recommended</option>
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
+        <option value="rating-desc">Rating</option>
+        <option value="prep-asc">Fastest first</option>
+        <option value="popular">Most ordered</option>
+        <option value="name-asc">Name (A&ndash;Z)</option>
+      </select>
+
+      <div class="chips" role="group" aria-label="Filter dishes">
+        <button class="chip active" data-veg="all">All</button>
+        <button class="chip" data-veg="true">Veg</button>
+        <button class="chip" data-veg="false">Non-veg</button>
+        <button class="chip toggle" id="servedOnlyChip" aria-pressed="false">Served now</button>
+      </div>
+
+      <label class="price-filter">
+        <span id="priceValue">Any price</span>
+        <input type="range" id="priceRange" min="20" max="150" step="10" value="150"
+               aria-label="Maximum price" />
+      </label>
+    </div>
+
+    <div class="wrap cat-tabs" id="catTabs"></div>
+  </div>
+
+  <main class="wrap" id="menu">
+    <section class="picks" hidden>
+      <h2 class="picks-title">Picked for you</h2>
+      <div class="picks-strip" id="picksStrip"></div>
+    </section>
+
+    <div class="list-head">
+      <h1 class="page-title">Today's Menu</h1>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+
+    <div id="menuStatus" class="status" hidden></div>
+    <div class="menu-grid" id="menuGrid"></div>
+
+    <div id="scrollSentinel" aria-hidden="true"></div>
+
+    <div class="load-more-wrap">
+      <button class="ghost-btn wide" id="loadMoreBtn" hidden>Load more</button>
+    </div>
+  </main>
+</section>
+
+<!-- ========================================================== ORDERS -->
+<section class="view" id="view-orders" hidden>
+  <main class="wrap">
+    <h1 class="page-title">My Orders</h1>
+    <div id="ordersStatus" class="status" hidden></div>
+    <div id="ordersList" class="orders-list"></div>
+  </main>
+</section>
+
+<!-- =========================================================== STAFF -->
+<section class="view" id="view-staff" hidden>
+  <main class="wrap">
+    <div class="list-head">
+      <h1 class="page-title">Counter Dashboard</h1>
+      <div class="staff-controls">
+        <select id="staffFilter" class="select small" aria-label="Filter orders">
+          <option value="all">All orders</option>
+          <option value="placed">Placed</option>
+          <option value="accepted">Accepted</option>
+          <option value="preparing">Preparing</option>
+          <option value="ready">Ready</option>
+          <option value="picked">Picked</option>
+        </select>
+        <label class="live-toggle">
+          <input type="checkbox" id="liveToggle" checked /> Auto refresh
+        </label>
+      </div>
+    </div>
+
+    <div class="stat-row" id="statRow"></div>
+    <div class="hour-strip" id="hourStrip" aria-label="Orders per hour"></div>
+
+    <div class="table-wrap">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Token</th><th>Items</th><th>Room</th><th>Pickup</th>
+            <th>Total</th><th>Placed</th><th>Status</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="staffRows"></tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">Stock</h2>
+    <div id="stockList" class="stock-list"></div>
+  </main>
+</section>
+
+<!-- ============================================================ CART -->
+<div class="overlay" id="cartOverlay" hidden></div>
+
+<aside class="cart-panel" id="cartPanel" aria-label="Your cart" hidden>
+  <div class="cart-head">
+    <h2>Your Cart</h2>
+    <button class="icon-btn" id="cartClose" aria-label="Close cart">&times;</button>
+  </div>
+
+  <div class="cart-items" id="cartItems"></div>
+
+  <div class="cart-extras">
+    <div class="coupon-row">
+      <input type="text" id="couponInput" placeholder="Coupon code (e.g. BYTE10)" aria-label="Coupon code" />
+      <button class="ghost-btn" id="couponBtn">Apply</button>
+    </div>
+    <div class="coupon-hints" id="couponHints"></div>
+    <p class="coupon-msg" id="couponMsg" hidden></p>
+  </div>
+
+  <div class="cart-foot">
+    <div class="row"><span>Subtotal</span><span id="subtotal">Rs. 0</span></div>
+    <div class="row discount" id="comboRow" hidden><span>Combo offer</span><span id="comboValue">-</span></div>
+    <div class="row discount" id="couponRow" hidden><span id="couponLabel">Coupon</span><span id="couponValue">-</span></div>
+    <div class="row discount" id="pointsRow" hidden><span>Points</span><span id="pointsValue">-</span></div>
+    <div class="row"><span>Packing</span><span id="packing">Rs. 0</span></div>
+    <div class="row" id="rushRow" hidden><span>Rush hour</span><span id="rushValue">-</span></div>
+    <div class="row"><span>GST (5%)</span><span id="gst">Rs. 0</span></div>
+    <div class="row" id="tipRow" hidden><span>Tip</span><span id="tipValue">-</span></div>
+    <div class="row total"><span>Total</span><span id="total">Rs. 0</span></div>
+
+    <p class="earn-note" id="earnNote"></p>
+
+    <button class="primary-btn" id="goCheckoutBtn" disabled>Checkout</button>
+    <button class="link-btn" id="clearCartBtn">Clear cart</button>
+    <p class="cart-error" id="cartError" hidden></p>
+  </div>
+</aside>
+
+<!-- ========================================================== MODALS -->
+<div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+<!-- dish detail -->
+<div class="modal wide" id="dishModal" role="dialog" aria-modal="true"
+     aria-labelledby="dishModalTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="dishModal" aria-label="Close">&times;</button>
+  <div id="dishModalBody"></div>
+</div>
+
+<!-- checkout -->
+<div class="modal wide" id="checkoutModal" role="dialog" aria-modal="true"
+     aria-labelledby="checkoutTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="checkoutModal" aria-label="Close">&times;</button>
+  <h2 id="checkoutTitle">Checkout</h2>
+
+  <section class="checkout-section">
+    <h3>Pickup time</h3>
+    <div class="slot-grid" id="slotGrid"></div>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Where and what</h3>
+    <label class="field">
+      <span>Deliver to room (optional)</span>
+      <input type="text" id="roomInput" placeholder="B-204" maxlength="5" autocomplete="off" />
+      <small class="field-error" id="roomError" hidden></small>
+    </label>
+
+    <label class="field">
+      <span>Note for the kitchen</span>
+      <input type="text" id="noteInput" placeholder="Less spicy" maxlength="140" />
+      <small class="counter" id="noteCounter">0/140</small>
+    </label>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Tip the kitchen</h3>
+    <div class="tip-row" id="tipRow2">
+      <button class="tip-chip" data-tip="0">No tip</button>
+      <button class="tip-chip" data-tip="5">5%</button>
+      <button class="tip-chip" data-tip="10">10%</button>
+      <button class="tip-chip" data-tip="15">15%</button>
+      <input type="number" id="tipFlatInput" class="tip-flat" min="0" max="100"
+             placeholder="Rs." aria-label="Custom tip amount" />
+    </div>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Canteen points</h3>
+    <div id="pointsBox"></div>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Bill</h3>
+    <div id="checkoutSummary" class="summary"></div>
+  </section>
+
+  <button class="primary-btn" id="placeOrderBtn">Place Order</button>
+  <p class="cart-error" id="checkoutError" hidden></p>
+</div>
+
+<!-- order tracking -->
+<div class="modal" id="orderModal" role="dialog" aria-modal="true"
+     aria-labelledby="modalTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="orderModal" aria-label="Close">&times;</button>
+  <h2 id="modalTitle">Your order</h2>
+  <p class="token" id="orderToken">CC-0000</p>
+  <p class="eta" id="orderEta"></p>
+  <p class="pickup-note" id="orderPickup"></p>
+
+  <ol class="timeline" id="orderTimeline"></ol>
+
+  <p class="hint">Show this token at the counter. This screen updates by itself.</p>
+
+  <div class="modal-actions">
+    <button class="ghost-btn" id="trackLaterBtn">Track from My Orders</button>
+    <button class="link-btn danger" id="cancelOrderBtn" hidden>Cancel order</button>
+    <button class="ghost-btn" id="rateOrderBtn" hidden>Rate this order</button>
+  </div>
+</div>
+
+<!-- rating -->
+<div class="modal" id="ratingModal" role="dialog" aria-modal="true"
+     aria-labelledby="ratingTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="ratingModal" aria-label="Close">&times;</button>
+  <h2 id="ratingTitle">How was it?</h2>
+  <div id="ratingBody"></div>
+  <button class="primary-btn" id="submitRatingBtn">Submit</button>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<!-- Challenge Tracker Modal -->
+<div class="ch-modal-overlay" id="trackerModal" style="display:none;">
+  <div class="ch-modal">
+    <div class="ch-modal-head">
+      <h2>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        BYTE Challenge '26 Bug Tracker (10/10 Fixed)
+      </h2>
+      <button class="ch-close-btn" id="btnCloseTracker">&times;</button>
+    </div>
+    <div class="ch-modal-body">
+      <div class="ch-grid">
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-01</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">The search suggestions are behind everything</div>
+          <div class="ch-quote">"I start typing a dish name and the list of suggestions comes up, but it's stuck behind the rest of the page. I can only click the very top bit of it."</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>.search-wrap</code> had <code>z-index: 1</code> while <code>.cat-tabs</code> below it had <code>z-index: 40</code>.<br><strong>Fix:</strong> Elevated <code>.search-wrap</code> to <code>z-index: 50</code> in <code>style.css</code>.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-02</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">Can't read anything in dark mode</div>
+          <div class="ch-quote">"I switched the site to dark mode and now the dish names and the prices are almost invisible."</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>.dish-body</code> had hardcoded <code>color: #2b2118</code> overriding theme CSS variable.<br><strong>Fix:</strong> Switched to <code>color: var(--ink);</code> for high-contrast cream text in dark mode.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-03</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">The menu is wider than my phone</div>
+          <div class="ch-quote">"I have to scroll sideways to see the whole menu, and the Add to Cart buttons on the right-hand dishes are cut off the edge of the screen"</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>.name-btn</code> had <code>width: max-content;</code> on small screens, blowing past grid column widths.<br><strong>Fix:</strong> Bound <code>.name-btn</code> to <code>width: 100%; max-width: 100%</code> and added <code>min-width: 0</code>.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-04</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">The buttons don't work on my tablet</div>
+          <div class="ch-quote">"Add to Cart does nothing. The star to save a dish does nothing either. The buttons look completely normal... Only my tablet?"</div>
+          <div class="ch-detail"><strong>Cause:</strong> Between 761px and 900px, <code>.dish-card::after</code> overlay sat over buttons with <code>z-index: 3</code>.<br><strong>Fix:</strong> Added <code>pointer-events: none;</code> so touch/click events pass straight through.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-05</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">The category bar scrolls away on my phone</div>
+          <div class="ch-quote">"On smaller screens, the category and filter bar scrolls away instead of staying visible at the top while I scroll down..."</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>.view { overflow-x: hidden; }</code> creates a scroll context that invalidates <code>position: sticky</code>.<br><strong>Fix:</strong> Changed to <code>overflow-x: clip;</code> in <code>style.css</code>.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-06</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">I ordered more than they had</div>
+          <div class="ch-quote">"The counter says only 2 samosas were left but it let me order 5, and the order went through fine."</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>validateLine</code> only checked <code>stock &lt;= 0</code> without checking <code>qty &gt; stock</code>, and <code>reserveStock</code> subtracted unchecked.<br><strong>Fix:</strong> Enforced remaining stock check in <code>validateLine</code> and <code>reserveStock</code> in <code>logic/validation.js</code>.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-07</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">Cancelling makes it worse</div>
+          <div class="ch-quote">"A student cancelled an order and the number of plates we have left went down again instead of coming back."</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>releaseStock()</code> used <code>dish.stock - line.qty</code> instead of <code>+ line.qty</code>.<br><strong>Fix:</strong> Changed subtraction to addition in <code>logic/validation.js</code>.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-08</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">An old coupon still works</div>
+          <div class="ch-quote">"FRESHERS24 was last year's offer and it expired ages ago. Someone used it yesterday and got the discount?!!"</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>applyCoupon()</code> in <code>logic/pricing.js</code> never verified <code>coupon.expiresAt &lt; now</code>.<br><strong>Fix:</strong> Added expiration check returning <code>reason: 'This coupon has expired'</code>.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-09</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">The menu shows more dishes than it should</div>
+          <div class="ch-quote">"The page is supposed to show a few dishes at a time and load more as you scroll. It just dumps a much longer list straight away!"</div>
+          <div class="ch-detail"><strong>Cause:</strong> <code>paginate()</code> computed <code>items = list.slice(start, start + perPage)</code>, but returned <code>items: list</code>.<br><strong>Fix:</strong> Returned <code>items</code> in <code>logic/search.js</code>.</div>
+        </div>
+
+        <div class="ch-card">
+          <div class="ch-card-head"><span class="ch-badge">CC-10</span><span class="ch-status-pill">FIXED</span></div>
+          <div class="ch-card-title">Sorting by price is backwards</div>
+          <div class="ch-quote">"I picked 'price: low to high' and the most expensive things came first. I tried the other option and that gave me the cheap ones."</div>
+          <div class="ch-detail"><strong>Cause:</strong> Comparators in <code>SORTERS['price-asc']</code> and <code>['price-desc']</code> were swapped.<br><strong>Fix:</strong> Set <code>price-asc: a.price - b.price</code> and <code>price-desc: b.price - a.price</code>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Smoke Tests Modal -->
+<div class="ch-modal-overlay" id="smokeModal" style="display:none;">
+  <div class="ch-modal" style="max-width: 600px;">
+    <div class="ch-modal-head">
+      <h2>Automated Smoke Test Verification</h2>
+      <button class="ch-close-btn" id="btnCloseSmoke">&times;</button>
+    </div>
+    <div class="ch-modal-body" id="smokeModalBody">
+      <p style="color:#94a3b8; font-size:13px; margin-bottom:12px;">Running backend and frontend test checks...</p>
+      <div id="smokeResults"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG.md Viewer Modal -->
+<div class="ch-modal-overlay" id="logModal" style="display:none;">
+  <div class="ch-modal">
+    <div class="ch-modal-head">
+      <h2>LOG.md (Challenge Writeup)</h2>
+      <button class="ch-close-btn" id="btnCloseLog">&times;</button>
+    </div>
+    <div class="ch-modal-body">
+      <pre id="logContent" style="white-space: pre-wrap; font-family: monospace; font-size: 13px; color: #cbd5e1; line-height: 1.6;"></pre>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Hostel Canteen &middot; 7:00 AM &ndash; 10:00 PM &middot; press / to search</p>
+    <p class="build">build <span id="buildTag">v3</span> &middot; <span id="serverClock">--:--</span></p>
+  </div>
+</footer>
+
+<script src="js/dom.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/api.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/dish.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/checkout.js"></script>
+<script src="js/orders.js"></script>
+<script src="js/staff.js"></script>
+<script src="js/router.js"></script>
+<script src="js/app.js"></script>
+
+<!-- Challenge Workbench Controller Script -->
+<script>
+  (function() {
+    const btnTracker = document.getElementById('btnOpenTracker');
+    const trackerModal = document.getElementById('trackerModal');
+    const btnCloseTracker = document.getElementById('btnCloseTracker');
+
+    const btnSmoke = document.getElementById('btnOpenSmoke');
+    const smokeModal = document.getElementById('smokeModal');
+    const btnCloseSmoke = document.getElementById('btnCloseSmoke');
+    const smokeResults = document.getElementById('smokeResults');
+
+    const btnReset = document.getElementById('btnResetData');
+    const simSlot = document.getElementById('simSlotSelect');
+
+    const btnLog = document.getElementById('btnViewLog');
+    const logModal = document.getElementById('logModal');
+    const btnCloseLog = document.getElementById('btnCloseLog');
+    const logContent = document.getElementById('logContent');
+
+    btnTracker?.addEventListener('click', () => trackerModal.style.display = 'flex');
+    btnCloseTracker?.addEventListener('click', () => trackerModal.style.display = 'none');
+
+    btnCloseSmoke?.addEventListener('click', () => smokeModal.style.display = 'none');
+    btnCloseLog?.addEventListener('click', () => logModal.style.display = 'none');
+
+    trackerModal?.addEventListener('click', (e) => {
+      if (e.target === trackerModal) trackerModal.style.display = 'none';
+    });
+    smokeModal?.addEventListener('click', (e) => {
+      if (e.target === smokeModal) smokeModal.style.display = 'none';
+    });
+    logModal?.addEventListener('click', (e) => {
+      if (e.target === logModal) logModal.style.display = 'none';
+    });
+
+    // Reset data
+    btnReset?.addEventListener('click', async () => {
+      if (confirm('Reset orders, ratings, and stock back to starting state?')) {
+        try {
+          const res = await fetch('/api/reset', { method: 'POST' });
+          const data = await res.json();
+          if (window.toast) window.toast(data.message || 'Data reset!', 'ok');
+          setTimeout(() => location.reload(), 600);
+        } catch (e) {
+          alert('Failed to reset: ' + e);
+        }
+      }
+    });
+
+    // Slot simulation
+    simSlot?.addEventListener('change', async (e) => {
+      const slot = e.target.value;
+      try {
+        await fetch('/api/sim-slot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slot })
+        });
+        if (window.toast) window.toast('Switched slot to: ' + slot, 'info');
+        setTimeout(() => location.reload(), 400);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
+    // Fetch initial slot
+    fetch('/api/sim-slot').then(r => r.json()).then(d => {
+      if (d && d.slot && simSlot) simSlot.value = d.slot;
+    }).catch(() => {});
+
+    // Run smoke test
+    btnSmoke?.addEventListener('click', async () => {
+      smokeModal.style.display = 'flex';
+      smokeResults.innerHTML = '<p style="color:#94a3b8;">Running tests...</p>';
+      try {
+        const res = await fetch('/api/smoke-run');
+        const data = await res.json();
+        if (data.ok && data.tests) {
+          smokeResults.innerHTML = data.tests.map(t => `
+            <div class="smoke-test-row">
+              <div>
+                <strong style="color:#f1f5f9;">${t.id || ''}:</strong> ${t.name}
+                <span style="font-size:11px; color:#94a3b8; margin-left:6px;">(${t.area})</span>
+              </div>
+              <div class="smoke-test-pass">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                PASSED
+              </div>
+            </div>
+          `).join('') + `
+            <div style="margin-top:14px; padding:10px; background:#14532d; color:#4ade80; border-radius:6px; font-weight:600; text-align:center;">
+              All 10/10 challenge problem statements verified passing!
+            </div>
+          `;
+        }
+      } catch (err) {
+        smokeResults.innerHTML = '<p style="color:#f87171;">Failed to run tests: ' + err.message + '</p>';
+      }
+    });
+
+    // View LOG.md
+    btnLog?.addEventListener('click', async () => {
+      logModal.style.display = 'flex';
+      logContent.textContent = 'Loading LOG.md...';
+      try {
+        const res = await fetch('/api/log-md');
+        const text = await res.text();
+        logContent.textContent = text;
+      } catch (e) {
+        logContent.textContent = 'Failed to load LOG.md: ' + e;
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

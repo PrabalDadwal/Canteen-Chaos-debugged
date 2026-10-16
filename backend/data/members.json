@@ -1,0 +1,44 @@
+[
+  {
+    "id": "smoke-a1tbwv",
+    "points": 12,
+    "lifetimePoints": 12,
+    "orders": 3,
+    "createdAt": "2026-10-16T08:13:20.110Z"
+  },
+  {
+    "id": "smoke-fopyer",
+    "points": 6,
+    "lifetimePoints": 6,
+    "orders": 2,
+    "createdAt": "2026-10-16T08:13:51.402Z"
+  },
+  {
+    "id": "smoke-lvlg6i",
+    "points": 12,
+    "lifetimePoints": 12,
+    "orders": 3,
+    "createdAt": "2026-10-16T08:15:02.888Z"
+  },
+  {
+    "id": "dev-svm6ueqm",
+    "points": 4,
+    "lifetimePoints": 4,
+    "orders": 3,
+    "createdAt": "2026-10-16T09:25:38.184Z"
+  },
+  {
+    "id": "member-test-abc",
+    "points": 6,
+    "lifetimePoints": 6,
+    "orders": 1,
+    "createdAt": "2026-10-16T10:03:30.784Z"
+  },
+  {
+    "id": "smoke-z60ewy",
+    "points": 12,
+    "lifetimePoints": 12,
+    "orders": 3,
+    "createdAt": "2026-10-16T10:03:41.395Z"
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "name": "Canteen Chaos",
+  "description": "Hostel canteen online ordering site with live kitchen queue, menu, cart, order tracking, and debugging dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

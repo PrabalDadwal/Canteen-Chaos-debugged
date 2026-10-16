@@ -1,0 +1,21 @@
+# Frontend-only ignores. Everything here is plain HTML/CSS/JS with no build
+# step, so there is not much to keep out - these are here for when someone
+# adds a bundler or a test runner later.
+
+# build output
+dist/
+.parcel-cache/
+.vite/
+
+# dependencies, if a package.json ever lands here
+node_modules/
+
+# local scratch: handy for trying a fix without committing it
+scratch/
+*.local.html
+*.local.css
+*.local.js
+
+# screenshots from manual testing
+screenshots/
+*.png.bak

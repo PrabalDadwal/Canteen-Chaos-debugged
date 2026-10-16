@@ -1,0 +1,16 @@
+# Backend-only ignores. The root .gitignore covers node_modules, .env and logs.
+
+# Runtime data. These are written by the running app, so keeping them out of
+# git stops every test run from showing up as a change.
+# store.js returns [] for a missing file, so the app starts fine without them.
+data/orders.json
+data/ratings.json
+data/members.json
+
+# menu.json and coupons.json ARE tracked: they are the seed data the app
+# needs to boot. Staff edits to stock will show as changes - that is expected;
+# check out the file to reset it:
+#   git checkout -- data/menu.json
+
+# atomic-write leftovers from store.js
+data/*.tmp

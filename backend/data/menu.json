@@ -1,0 +1,615 @@
+[
+  {
+    "id": 1,
+    "name": "Masala Dosa",
+    "price": 40,
+    "veg": true,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-2.jpg",
+    "stock": 0,
+    "prepMinutes": 12,
+    "spicy": true,
+    "rating": 3.8,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 2,
+    "name": "Idli Sambar",
+    "price": 66,
+    "veg": true,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-3.jpg",
+    "stock": 6,
+    "prepMinutes": 10,
+    "spicy": true,
+    "rating": 3.6,
+    "tags": [
+      "jain-available",
+      "bestseller"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 3,
+    "name": "Medu Vada",
+    "price": 62,
+    "veg": true,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-4.jpg",
+    "stock": 20,
+    "prepMinutes": 12,
+    "spicy": true,
+    "rating": 4.2,
+    "tags": [
+      "bestseller"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 4,
+    "name": "Uttapam",
+    "price": 69,
+    "veg": true,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-5.jpg",
+    "stock": 5,
+    "prepMinutes": 10,
+    "spicy": true,
+    "rating": 4.1,
+    "tags": [
+      "combo-eligible",
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 5,
+    "name": "Rava Upma",
+    "price": 62,
+    "veg": true,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-6.jpg",
+    "stock": 5,
+    "prepMinutes": 4,
+    "spicy": true,
+    "rating": 4.2,
+    "tags": [
+      "new",
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 6,
+    "name": "Poha",
+    "price": 43.5,
+    "veg": true,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-7.jpg",
+    "stock": 8,
+    "prepMinutes": 12,
+    "spicy": false,
+    "rating": 3.8,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 7,
+    "name": "Aloo Paratha",
+    "price": 61,
+    "veg": true,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-8.jpg",
+    "stock": 0,
+    "prepMinutes": 12,
+    "spicy": false,
+    "rating": 4.1,
+    "tags": [
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 8,
+    "name": "Bread Omelette",
+    "price": 38,
+    "veg": false,
+    "category": "Breakfast",
+    "slot": "breakfast",
+    "image": "img/dish-1.jpg",
+    "stock": 12,
+    "prepMinutes": 10,
+    "spicy": true,
+    "rating": 4.5,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 9,
+    "name": "Rajma Chawal",
+    "price": 135,
+    "veg": true,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-2.jpg",
+    "stock": 25,
+    "prepMinutes": 12,
+    "spicy": false,
+    "rating": 3.8,
+    "tags": [
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 10,
+    "name": "Chole Bhature",
+    "price": 106,
+    "veg": true,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-3.jpg",
+    "stock": 5,
+    "prepMinutes": 10,
+    "spicy": true,
+    "rating": 3.3,
+    "tags": [
+      "combo-eligible",
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 11,
+    "name": "Paneer Butter Masala with Butter Naan",
+    "price": 113.5,
+    "veg": true,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-4.jpg",
+    "stock": 5,
+    "prepMinutes": 10,
+    "spicy": false,
+    "rating": 3.2,
+    "tags": [
+      "combo-eligible"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 12,
+    "name": "Dal Tadka Thali",
+    "price": 73,
+    "veg": true,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-5.jpg",
+    "stock": 3,
+    "prepMinutes": 8,
+    "spicy": true,
+    "rating": 4.5,
+    "tags": [
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 13,
+    "name": "Veg Biryani",
+    "price": 133,
+    "veg": true,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-6.jpg",
+    "stock": 8,
+    "prepMinutes": 10,
+    "spicy": false,
+    "rating": 4.7,
+    "tags": [
+      "combo-eligible"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 14,
+    "name": "Chicken Curry Rice",
+    "price": 138.5,
+    "veg": false,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-7.jpg",
+    "stock": 3,
+    "prepMinutes": 6,
+    "spicy": true,
+    "rating": 3.5,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 15,
+    "name": "Egg Curry Rice",
+    "price": 113,
+    "veg": false,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-8.jpg",
+    "stock": 5,
+    "prepMinutes": 8,
+    "spicy": true,
+    "rating": 3.4,
+    "tags": [
+      "combo-eligible",
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 16,
+    "name": "Rajasthani Kadhi Chawal",
+    "price": 105,
+    "veg": true,
+    "category": "Lunch",
+    "slot": "lunch",
+    "image": "img/dish-1.jpg",
+    "stock": 8,
+    "prepMinutes": 12,
+    "spicy": false,
+    "rating": 3.9,
+    "tags": [
+      "bestseller"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 17,
+    "name": "Veg Fried Rice",
+    "price": 89,
+    "veg": true,
+    "category": "Chinese",
+    "slot": "evening",
+    "image": "img/dish-2.jpg",
+    "stock": 0,
+    "prepMinutes": 6,
+    "spicy": false,
+    "rating": 3.5,
+    "tags": [
+      "bestseller"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 18,
+    "name": "Hakka Noodles",
+    "price": 66,
+    "veg": true,
+    "category": "Chinese",
+    "slot": "evening",
+    "image": "img/dish-3.jpg",
+    "stock": 5,
+    "prepMinutes": 12,
+    "spicy": true,
+    "rating": 3.3,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 19,
+    "name": "Chilli Paneer",
+    "price": 68.5,
+    "veg": true,
+    "category": "Chinese",
+    "slot": "evening",
+    "image": "img/dish-4.jpg",
+    "stock": 3,
+    "prepMinutes": 12,
+    "spicy": false,
+    "rating": 4,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 20,
+    "name": "Chicken Manchurian",
+    "price": 119.5,
+    "veg": false,
+    "category": "Chinese",
+    "slot": "evening",
+    "image": "img/dish-5.jpg",
+    "stock": 8,
+    "prepMinutes": 10,
+    "spicy": false,
+    "rating": 3.3,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 21,
+    "name": "Veg Momos",
+    "price": 103.5,
+    "veg": true,
+    "category": "Chinese",
+    "slot": "evening",
+    "image": "img/dish-6.jpg",
+    "stock": 2,
+    "prepMinutes": 6,
+    "spicy": true,
+    "rating": 3.5,
+    "tags": [
+      "combo-eligible",
+      "bestseller"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 22,
+    "name": "Chicken Momos",
+    "price": 114.5,
+    "veg": false,
+    "category": "Chinese",
+    "slot": "evening",
+    "image": "img/dish-7.jpg",
+    "stock": 3,
+    "prepMinutes": 4,
+    "spicy": false,
+    "rating": 4.1,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 23,
+    "name": "Spring Roll",
+    "price": 72.5,
+    "veg": true,
+    "category": "Chinese",
+    "slot": "evening",
+    "image": "img/dish-8.jpg",
+    "stock": 20,
+    "prepMinutes": 6,
+    "spicy": true,
+    "rating": 4.6,
+    "tags": [
+      "new"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 24,
+    "name": "Samosa",
+    "price": 26,
+    "veg": true,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-1.jpg",
+    "stock": 0,
+    "prepMinutes": 8,
+    "spicy": false,
+    "rating": 3.6,
+    "tags": [
+      "combo-eligible",
+      "new"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 25,
+    "name": "Veg Puff",
+    "price": 54.5,
+    "veg": true,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-2.jpg",
+    "stock": 0,
+    "prepMinutes": 4,
+    "spicy": true,
+    "rating": 3.4,
+    "tags": [
+      "new"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 26,
+    "name": "Grilled Sandwich",
+    "price": 34,
+    "veg": true,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-3.jpg",
+    "stock": 2,
+    "prepMinutes": 8,
+    "spicy": true,
+    "rating": 4.6,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 27,
+    "name": "Egg Roll",
+    "price": 65,
+    "veg": false,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-4.jpg",
+    "stock": 0,
+    "prepMinutes": 6,
+    "spicy": false,
+    "rating": 4.5,
+    "tags": [
+      "bestseller"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 28,
+    "name": "Bread Pakora",
+    "price": 67.5,
+    "veg": true,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-5.jpg",
+    "stock": 8,
+    "prepMinutes": 10,
+    "spicy": true,
+    "rating": 4.4,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 29,
+    "name": "Pav Bhaji",
+    "price": 16.5,
+    "veg": true,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-6.jpg",
+    "stock": 25,
+    "prepMinutes": 6,
+    "spicy": false,
+    "rating": 4.3,
+    "tags": [
+      "new"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 30,
+    "name": "Vada Pav",
+    "price": 45,
+    "veg": true,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-7.jpg",
+    "stock": 25,
+    "prepMinutes": 4,
+    "spicy": true,
+    "rating": 3.9,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 31,
+    "name": "French Fries",
+    "price": 26.5,
+    "veg": true,
+    "category": "Snacks",
+    "slot": "allday",
+    "image": "img/dish-8.jpg",
+    "stock": 3,
+    "prepMinutes": 8,
+    "spicy": true,
+    "rating": 4.5,
+    "tags": [
+      "combo-eligible"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 32,
+    "name": "Masala Chai",
+    "price": 39,
+    "veg": true,
+    "category": "Beverages",
+    "slot": "allday",
+    "image": "img/dish-1.jpg",
+    "stock": 20,
+    "prepMinutes": 8,
+    "spicy": false,
+    "rating": 4.3,
+    "tags": [
+      "jain-available",
+      "combo-eligible"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 33,
+    "name": "Cold Coffee",
+    "price": 21,
+    "veg": true,
+    "category": "Beverages",
+    "slot": "allday",
+    "image": "img/dish-2.jpg",
+    "stock": 25,
+    "prepMinutes": 10,
+    "spicy": true,
+    "rating": 4.2,
+    "tags": [],
+    "disabled": false
+  },
+  {
+    "id": 34,
+    "name": "Fresh Lime Soda",
+    "price": 23,
+    "veg": true,
+    "category": "Beverages",
+    "slot": "allday",
+    "image": "img/dish-3.jpg",
+    "stock": 12,
+    "prepMinutes": 4,
+    "spicy": false,
+    "rating": 4.4,
+    "tags": [
+      "jain-available",
+      "bestseller"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 35,
+    "name": "Buttermilk",
+    "price": 55,
+    "veg": true,
+    "category": "Beverages",
+    "slot": "allday",
+    "image": "img/dish-4.jpg",
+    "stock": 5,
+    "prepMinutes": 4,
+    "spicy": true,
+    "rating": 4.1,
+    "tags": [
+      "bestseller",
+      "jain-available"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 36,
+    "name": "Mango Shake",
+    "price": 35,
+    "veg": true,
+    "category": "Beverages",
+    "slot": "allday",
+    "image": "img/dish-5.jpg",
+    "stock": 20,
+    "prepMinutes": 8,
+    "spicy": false,
+    "rating": 4.1,
+    "tags": [
+      "new"
+    ],
+    "disabled": false
+  },
+  {
+    "id": 37,
+    "name": "Filter Coffee",
+    "price": 53.5,
+    "veg": true,
+    "category": "Beverages",
+    "slot": "allday",
+    "image": "img/dish-6.jpg",
+    "stock": 12,
+    "prepMinutes": 6,
+    "spicy": false,
+    "rating": 3.4,
+    "tags": [],
+    "disabled": false
+  }
+]

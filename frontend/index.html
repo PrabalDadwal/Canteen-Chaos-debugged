@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-build="v3-clean" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Order from the hostel canteen" />
+  <title>Hostel Canteen &mdash; Order Online</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#menu">Skip to menu</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#/menu">
+      <span class="brand-mark">CC</span>
+      <span class="brand-text">Hostel Canteen</span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" id="siteNav">
+      <a href="#/menu"   class="nav-link" data-route="menu">Menu</a>
+      <a href="#/orders" class="nav-link" data-route="orders">My Orders</a>
+      <a href="#/staff"  class="nav-link" data-route="staff">Counter</a>
+
+      <button class="ghost-btn" id="themeBtn" aria-label="Switch theme">Dark</button>
+
+      <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="slot-bar" id="slotBar">Checking what's being served...</div>
+</header>
+
+<!-- ============================================================ MENU -->
+<section class="view" id="view-menu">
+  <div class="filters">
+    <div class="wrap filters-inner">
+      <div class="search-wrap">
+        <input type="search" id="searchInput" class="search" autocomplete="off"
+               placeholder="Search dishes, categories, tags...   (press /)"
+               aria-label="Search dishes" role="combobox" aria-expanded="false"
+               aria-controls="suggestBox" />
+        <div class="suggest-box" id="suggestBox" role="listbox" hidden></div>
+      </div>
+
+      <select id="sortSelect" class="select" aria-label="Sort dishes">
+        <option value="default">Recommended</option>
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
+        <option value="rating-desc">Rating</option>
+        <option value="prep-asc">Fastest first</option>
+        <option value="popular">Most ordered</option>
+        <option value="name-asc">Name (A&ndash;Z)</option>
+      </select>
+
+      <div class="chips" role="group" aria-label="Filter dishes">
+        <button class="chip active" data-veg="all">All</button>
+        <button class="chip" data-veg="true">Veg</button>
+        <button class="chip" data-veg="false">Non-veg</button>
+        <button class="chip toggle" id="servedOnlyChip" aria-pressed="false">Served now</button>
+      </div>
+
+      <label class="price-filter">
+        <span id="priceValue">Any price</span>
+        <input type="range" id="priceRange" min="20" max="150" step="10" value="150"
+               aria-label="Maximum price" />
+      </label>
+    </div>
+
+    <div class="wrap cat-tabs" id="catTabs"></div>
+  </div>
+
+  <main class="wrap" id="menu">
+    <section class="picks" hidden>
+      <h2 class="picks-title">Picked for you</h2>
+      <div class="picks-strip" id="picksStrip"></div>
+    </section>
+
+    <div class="list-head">
+      <h1 class="page-title">Today's Menu</h1>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+
+    <div id="menuStatus" class="status" hidden></div>
+    <div class="menu-grid" id="menuGrid"></div>
+
+    <div id="scrollSentinel" aria-hidden="true"></div>
+
+    <div class="load-more-wrap">
+      <button class="ghost-btn wide" id="loadMoreBtn" hidden>Load more</button>
+    </div>
+  </main>
+</section>
+
+<!-- ========================================================== ORDERS -->
+<section class="view" id="view-orders" hidden>
+  <main class="wrap">
+    <h1 class="page-title">My Orders</h1>
+    <div id="ordersStatus" class="status" hidden></div>
+    <div id="ordersList" class="orders-list"></div>
+  </main>
+</section>
+
+<!-- =========================================================== STAFF -->
+<section class="view" id="view-staff" hidden>
+  <main class="wrap">
+    <div class="list-head">
+      <h1 class="page-title">Counter Dashboard</h1>
+      <div class="staff-controls">
+        <select id="staffFilter" class="select small" aria-label="Filter orders">
+          <option value="all">All orders</option>
+          <option value="placed">Placed</option>
+          <option value="accepted">Accepted</option>
+          <option value="preparing">Preparing</option>
+          <option value="ready">Ready</option>
+          <option value="picked">Picked</option>
+        </select>
+        <label class="live-toggle">
+          <input type="checkbox" id="liveToggle" checked /> Auto refresh
+        </label>
+      </div>
+    </div>
+
+    <div class="stat-row" id="statRow"></div>
+    <div class="hour-strip" id="hourStrip" aria-label="Orders per hour"></div>
+
+    <div class="table-wrap">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Token</th><th>Items</th><th>Room</th><th>Pickup</th>
+            <th>Total</th><th>Placed</th><th>Status</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="staffRows"></tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">Stock</h2>
+    <div id="stockList" class="stock-list"></div>
+  </main>
+</section>
+
+<!-- ============================================================ CART -->
+<div class="overlay" id="cartOverlay" hidden></div>
+
+<aside class="cart-panel" id="cartPanel" aria-label="Your cart" hidden>
+  <div class="cart-head">
+    <h2>Your Cart</h2>
+    <button class="icon-btn" id="cartClose" aria-label="Close cart">&times;</button>
+  </div>
+
+  <div class="cart-items" id="cartItems"></div>
+
+  <div class="cart-extras">
+    <div class="coupon-row">
+      <input type="text" id="couponInput" placeholder="Coupon code" aria-label="Coupon code" />
+      <button class="ghost-btn" id="couponBtn">Apply</button>
+    </div>
+    <div class="coupon-hints" id="couponHints"></div>
+    <p class="coupon-msg" id="couponMsg" hidden></p>
+  </div>
+
+  <div class="cart-foot">
+    <div class="row"><span>Subtotal</span><span id="subtotal">Rs. 0</span></div>
+    <div class="row discount" id="comboRow" hidden><span>Combo offer</span><span id="comboValue">-</span></div>
+    <div class="row discount" id="couponRow" hidden><span id="couponLabel">Coupon</span><span id="couponValue">-</span></div>
+    <div class="row discount" id="pointsRow" hidden><span>Points</span><span id="pointsValue">-</span></div>
+    <div class="row"><span>Packing</span><span id="packing">Rs. 0</span></div>
+    <div class="row" id="rushRow" hidden><span>Rush hour</span><span id="rushValue">-</span></div>
+    <div class="row"><span>GST (5%)</span><span id="gst">Rs. 0</span></div>
+    <div class="row" id="tipRow" hidden><span>Tip</span><span id="tipValue">-</span></div>
+    <div class="row total"><span>Total</span><span id="total">Rs. 0</span></div>
+
+    <p class="earn-note" id="earnNote"></p>
+
+    <button class="primary-btn" id="goCheckoutBtn" disabled>Checkout</button>
+    <button class="link-btn" id="clearCartBtn">Clear cart</button>
+    <p class="cart-error" id="cartError" hidden></p>
+  </div>
+</aside>
+
+<!-- ========================================================== MODALS -->
+<div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+<!-- dish detail -->
+<div class="modal wide" id="dishModal" role="dialog" aria-modal="true"
+     aria-labelledby="dishModalTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="dishModal" aria-label="Close">&times;</button>
+  <div id="dishModalBody"></div>
+</div>
+
+<!-- checkout -->
+<div class="modal wide" id="checkoutModal" role="dialog" aria-modal="true"
+     aria-labelledby="checkoutTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="checkoutModal" aria-label="Close">&times;</button>
+  <h2 id="checkoutTitle">Checkout</h2>
+
+  <section class="checkout-section">
+    <h3>Pickup time</h3>
+    <div class="slot-grid" id="slotGrid"></div>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Where and what</h3>
+    <label class="field">
+      <span>Deliver to room (optional)</span>
+      <input type="text" id="roomInput" placeholder="B-204" maxlength="5" autocomplete="off" />
+      <small class="field-error" id="roomError" hidden></small>
+    </label>
+
+    <label class="field">
+      <span>Note for the kitchen</span>
+      <input type="text" id="noteInput" placeholder="Less spicy" maxlength="140" />
+      <small class="counter" id="noteCounter">0/140</small>
+    </label>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Tip the kitchen</h3>
+    <div class="tip-row" id="tipRow2">
+      <button class="tip-chip" data-tip="0">No tip</button>
+      <button class="tip-chip" data-tip="5">5%</button>
+      <button class="tip-chip" data-tip="10">10%</button>
+      <button class="tip-chip" data-tip="15">15%</button>
+      <input type="number" id="tipFlatInput" class="tip-flat" min="0" max="100"
+             placeholder="Rs." aria-label="Custom tip amount" />
+    </div>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Canteen points</h3>
+    <div id="pointsBox"></div>
+  </section>
+
+  <section class="checkout-section">
+    <h3>Bill</h3>
+    <div id="checkoutSummary" class="summary"></div>
+  </section>
+
+  <button class="primary-btn" id="placeOrderBtn">Place Order</button>
+  <p class="cart-error" id="checkoutError" hidden></p>
+</div>
+
+<!-- order tracking -->
+<div class="modal" id="orderModal" role="dialog" aria-modal="true"
+     aria-labelledby="modalTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="orderModal" aria-label="Close">&times;</button>
+  <h2 id="modalTitle">Your order</h2>
+  <p class="token" id="orderToken">CC-0000</p>
+  <p class="eta" id="orderEta"></p>
+  <p class="pickup-note" id="orderPickup"></p>
+
+  <ol class="timeline" id="orderTimeline"></ol>
+
+  <p class="hint">Show this token at the counter. This screen updates by itself.</p>
+
+  <div class="modal-actions">
+    <button class="ghost-btn" id="trackLaterBtn">Track from My Orders</button>
+    <button class="link-btn danger" id="cancelOrderBtn" hidden>Cancel order</button>
+    <button class="ghost-btn" id="rateOrderBtn" hidden>Rate this order</button>
+  </div>
+</div>
+
+<!-- rating -->
+<div class="modal" id="ratingModal" role="dialog" aria-modal="true"
+     aria-labelledby="ratingTitle" hidden>
+  <button class="icon-btn modal-close" data-close-modal="ratingModal" aria-label="Close">&times;</button>
+  <h2 id="ratingTitle">How was it?</h2>
+  <div id="ratingBody"></div>
+  <button class="primary-btn" id="submitRatingBtn">Submit</button>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Hostel Canteen &middot; 7:00 AM &ndash; 10:00 PM &middot; press / to search</p>
+    <p class="build">build <span id="buildTag">v3</span> &middot; <span id="serverClock">--:--</span></p>
+  </div>
+</footer>
+
+<script src="js/dom.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/api.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/dish.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/checkout.js"></script>
+<script src="js/orders.js"></script>
+<script src="js/staff.js"></script>
+<script src="js/router.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

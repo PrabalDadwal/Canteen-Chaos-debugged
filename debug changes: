@@ -1,0 +1,40 @@
+What was the bug?
+When a student places an order, the browser generates an order and registers it with the device's member ID (X-Member-Id). However, navigating to the "My Orders" section displayed:
+  Where was the bug located?
+File: backend/routes/orders.routes.js
+Endpoint: GET /api/orders (lines 181–204)
+  When the frontend fetches orders for the current user, it calls:
+
+// frontend/js/orders.js (line 132)
+const data = await api.listOrders({ memberId: deviceId(), limit: 25 });
+// Requests: GET /api/orders?memberId=m-xxxxxx&limit=25
+
+Notice that the query parameter sent by the client is named memberId.
+However, in backend/routes/orders.routes.js at line 188:
+
+// BEFORE (Buggy code):
+if (req.query.status) orders = orders.filter((o) => o.status === req.query.status);
+if (req.query.memberId) orders = orders.filter((o) => o.memberId === req.query.userId);
+if (req.query.active === 'true') { ... }
+
+It checked if (req.query.memberId) (which was true).
+But it filtered with o.memberId === req.query.userId.
+Because req.query.userId was never sent by the frontend, req.query.userId was undefined.
+The comparison o.memberId === undefined evaluated to false for every single order.
+As a result, every order was filtered out and an empty list [] was returned to the browser!
+
+  The Fix in Detail
+In backend/routes/orders.routes.js, line 188 was updated to check req.query.memberId (with fallback to req.query.userId):
+
+  --- a/backend/routes/orders.routes.js
++++ b/backend/routes/orders.routes.js
+@@ -185,7 +185,8 @@ router.get(
+     let orders = all.slice();
+ 
+     if (req.query.status) orders = orders.filter((o) => o.status === req.query.status);
+-    if (req.query.memberId) orders = orders.filter((o) => o.memberId === req.query.userId);
++    const memberId = req.query.memberId || req.query.userId;
++    if (memberId) orders = orders.filter((o) => o.memberId === memberId);
+     if (req.query.active === 'true') {
+       orders = orders.filter((o) => !statusLogic.TERMINAL.includes(o.status));
+     }
